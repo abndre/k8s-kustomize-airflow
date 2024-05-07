@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  - ingress.yaml
+helmCharts:
+  - name: airflow
+    releaseName: airflow
+    version: 1.13.1
+    includeCRDs: true
+    repo: https://airflow.apache.org/
+    valuesInline:
+      webserverSecretKey: 'suachavesecreta'
+      extraEnv: |
+        - name: AIRFLOW__CORE__DEFAULT_UI_TIMEZONE
+          value: 'America/Sao_Paulo'
+        - name: AIRFLOW__CORE__DEFAULT_TIMEZONE
+          value: 'America/Sao_Paulo'
+        - name: AIRFLOW__WEBSERVER__INSTANCE_NAME
+          value: k8sAirflowDev

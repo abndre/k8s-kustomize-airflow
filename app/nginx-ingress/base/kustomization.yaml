@@ -1,0 +1,26 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: ingress-nginx
+
+
+helmCharts:
+  - name: nginx-ingress
+    releaseName: nginx-ingress
+    version: 1.1.3
+    includeCRDs: true
+    repo: https://helm.nginx.com/stable
+    valuesInline:
+      fullnameOverride: nginx-ingress
+      rbac:
+        create: true
+      controller:
+        wildcardTLS:
+          secret: ingress-nginx/wildcard-cert
+        admissionWebhooks:
+          enabled: false
+        service:
+          annotations: 
+            service.beta.kubernetes.io/oci-load-balancer-shape: "flexible" 
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-min: "10"
+            service.beta.kubernetes.io/oci-load-balancer-shape-flex-max: "50"      
+            service.beta.kubernetes.io/oci-load-balancer-internal: "true"

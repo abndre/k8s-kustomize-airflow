@@ -1,0 +1,2 @@
+app/airflow/overlay/dev/charts/*
+app/nginx-ingress/base/charts/*
